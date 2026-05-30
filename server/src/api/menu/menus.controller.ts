@@ -1,5 +1,6 @@
 import {
   Menu,
+  MenuCatalog,
   MenuDetails,
   MenusUseCase,
   ServiceResponse,
@@ -24,6 +25,12 @@ export class MenusController {
     const menuId = req.params.menuId as string;
     const serviceResponse: ServiceResponse<MenuDetails> =
       await this.menusUseCase.getMenusDetail(menuId);
+    res.status(serviceResponse.statusCode).send(serviceResponse);
+  };
+
+  getMenuCatalog: RequestHandler = async (_req: Request, res: Response) => {
+    const serviceResponse: ServiceResponse<MenuCatalog> =
+      await this.menusUseCase.getMenuCatalog();
     res.status(serviceResponse.statusCode).send(serviceResponse);
   };
 }
