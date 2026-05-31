@@ -1,6 +1,12 @@
 import { NodePgDatabase } from "drizzle-orm/node-postgres";
 import { MenusDatasource } from "./datasource";
-import { MenuDetailsDTO, MenuDTO } from "./dto";
+import { MenuCatalogDTO, MenuDetailsDTO, MenuDTO } from "./dto";
+import {
+  menusTable,
+  menusToModifierGroupsTable,
+  modifierGroupTable,
+  modifierItemTable,
+} from "../../platform/drizzle/schema";
 
 export function MenusDatasourceImpl(
   dbClient: NodePgDatabase<typeof import("../../platform/drizzle/schema")>,
@@ -9,7 +15,9 @@ export function MenusDatasourceImpl(
     return await dbClient.query.menusTable.findMany();
   };
 
-  const getMenuDetails = async (menuId: string): Promise<MenuDetailsDTO | undefined> => {
+  const getMenuDetails = async (
+    menuId: string,
+  ): Promise<MenuDetailsDTO | undefined> => {
     return await dbClient.query.menusTable.findFirst({
       where: (menus, { eq }) => eq(menus.id, Number(menuId)),
       with: {
@@ -26,8 +34,23 @@ export function MenusDatasourceImpl(
     });
   };
 
+  const fetchMenuCatalog = async (): Promise<MenuCatalogDTO> => {
+    const allMenus = await dbClient.select().from(menusTable);
+    const allGroups = await dbClient.select().from(modifierGroupTable);
+    const allItems = await dbClient.select().from(modifierItemTable);
+    const allBridges = await dbClient.select().from(menusToModifierGroupsTable);
+    
+    return {
+      menus: allMenus,
+      modifierGroups: allGroups,
+      modifierItems: allItems,
+      menuToModifierGroups: allBridges,
+    };
+  };
+
   return {
     getMenus,
     getMenuDetails,
-  }
+    fetchMenuCatalog,
+  };
 }

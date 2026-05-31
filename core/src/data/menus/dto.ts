@@ -34,3 +34,30 @@ export interface MenuDetailsDTO {
     };
   }[];
 }
+
+interface ModifierGroupDTO {
+  id: number;
+  name: string;
+  type: string;
+  minSelect: number | null;
+  maxSelect: number | null;
+}
+
+interface ModifierItemDTO {
+  id: number;
+  name: string;
+  price: number;
+  modifierGroupId: number;
+}
+
+interface MenuToModifierGroupDTO {
+  menuId: number;
+  modifierGroupId: number;
+}
+
+export interface MenuCatalogDTO {
+  menus: MenuDTO[];
+  modifierGroups: ModifierGroupDTO[];
+  modifierItems: ModifierItemDTO[];
+  menuToModifierGroups: MenuToModifierGroupDTO[];
+}

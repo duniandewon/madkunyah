@@ -1,4 +1,4 @@
-import { Menu, MenuDetails } from "../../domain/menus/models";
+import { Menu, MenuCatalog, MenuDetails } from "../../domain/menus/models";
 import { MenusRepository } from "../../domain/menus/repository";
 import { ServiceResponse } from "../../shared/types/responses";
 import { MenusUseCase } from "./use-case";
@@ -52,8 +52,30 @@ export function MenusInteractors(
       };
     }
   };
+
+  const getMenuCatalog = async (): Promise<ServiceResponse<MenuCatalog>> => {
+    try {
+      const catalog = await menusRepository.fetchMenuCatalog();
+
+      return {
+        success: true,
+        message: "OK",
+        responseObject: catalog,
+        statusCode: 200,
+      };
+    } catch (err) {
+      console.log("error on fetch menu catalog:", err);
+      return {
+        success: false,
+        message: "something went wrong",
+        statusCode: 500,
+      };
+    }
+  };
+
   return {
     getAllMenus,
     getMenusDetail,
+    getMenuCatalog,
   };
 }

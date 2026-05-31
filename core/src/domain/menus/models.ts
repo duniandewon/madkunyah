@@ -32,3 +32,13 @@ export interface MenuDetails {
   category: string;
   modifier_groups: ModifierGroup[];
 }
+
+export interface MenuCatalog {
+  menus: Menu[];
+  modifierItems: ModifierItem[];
+  modifierGroups: ModifierGroup[];
+  menuToModifierGroups: {
+    menuId: number;
+    modifierGroupId: number;
+  }[];
+}
