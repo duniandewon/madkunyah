@@ -43,6 +43,7 @@ export function MenusRepositoryImpl(data: MenusDatasource): MenusRepository {
           id: modItem.id,
           name: modItem.name,
           price: modItem.price,
+          modifierGroupId: modItem.modifierGroupId,
         })),
       })),
     };
@@ -59,6 +60,7 @@ export function MenusRepositoryImpl(data: MenusDatasource): MenusRepository {
         id: item.id,
         name: item.name,
         price: item.price,
+        modifierGroupId: item.modifierGroupId,
       })),
       menus: catalog.menus.map((menu) => ({
         description: menu.description || "",
