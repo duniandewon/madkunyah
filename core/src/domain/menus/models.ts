@@ -12,6 +12,7 @@ export interface ModifierItem {
   id: number;
   name: string;
   price: number;
+  modifierGroupId: number;
 }
 
 export interface ModifierGroup {
